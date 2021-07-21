@@ -28,6 +28,7 @@ public class myBinarySearchTree {
         if(root == null) {
             root = new Node(key);
             return root;
+            
         }
         
         if(root.val < key) {
@@ -113,10 +114,7 @@ public class myBinarySearchTree {
             return -1;
         }
         
-        int lefth = findMaxDepthHelper(root.left);
-        int righth = findMaxDepthHelper(root.right);
-        
-        return Math.max(lefth, righth) + 1;
+        return Math.max(findMaxDepthHelper(root.left), findMaxDepthHelper(root.right)) + 1;
     }
     
     public void inOrderTraversal() {
@@ -158,12 +156,32 @@ public class myBinarySearchTree {
         }
     }
     
+    public boolean isBalanced() {
+        return isBalancedH(root);
+    }
+    public boolean isBalancedH(Node root) {
+        if(root == null) {
+            return true;
+        }
+        
+        int lefth = findMaxDepthHelper(root.left);
+        int righth = findMaxDepthHelper(root.right);
+        
+        if((Math.abs(lefth - righth) <= 1) && isBalancedH(root.right) && isBalancedH(root.left)) {
+            return true;
+        }
+        
+        return false;
+    }
+    
     public static void main(String[] args) {
         
         myBinarySearchTree tree = new myBinarySearchTree();
         tree.insert(10);
         tree.insert(3);
         tree.insert(12);
+        tree.insert(2);
+        tree.insert(1);
         
         tree.preOrderTraversal();
         System.out.println();
@@ -174,12 +192,9 @@ public class myBinarySearchTree {
         tree.postOrderTraversal();
         System.out.println();
         
-        tree.remove(3);
-        tree.inOrderTraversal();
-        System.out.println();
-        
         // max depth
         System.out.println(tree.findMaxDepth());
+        System.out.println(tree.isBalanced());
 
     }
 }
