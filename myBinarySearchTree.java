@@ -174,6 +174,46 @@ public class myBinarySearchTree {
         return false;
     }
     
+    public void useStack() {
+        if(root == null) {
+            return;
+        }
+        Stack<Node> s = new Stack<>();
+        Node curr = root;
+        while(curr != null || !s.isEmpty()) {
+ 
+            while (curr !=  null)
+            {
+                s.push(curr);
+                curr = curr.left;
+            }
+            curr = s.pop();
+            System.out.print(curr.val + " ");
+            curr = curr.right;
+            
+        }
+    }
+    
+    public void BFS() {
+        Queue<Node> queue = new LinkedList<Node>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            Node temp = queue.poll();
+            System.out.print(temp.val + " ");
+            
+            /*Enqueue left child */
+            if (temp.left != null) {
+                queue.add(temp.left);
+            }
+ 
+            /*Enqueue right child */
+            if (temp.right != null) {
+                queue.add(temp.right);
+            }
+        }
+        
+    }
+    
     public static void main(String[] args) {
         
         myBinarySearchTree tree = new myBinarySearchTree();
@@ -184,6 +224,8 @@ public class myBinarySearchTree {
         tree.insert(1);
         
         tree.preOrderTraversal();
+        System.out.println();
+        tree.BFS();
         System.out.println();
         
         tree.inOrderTraversal();
