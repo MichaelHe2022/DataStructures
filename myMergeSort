@@ -1,0 +1,88 @@
+
+public class MergeSort {
+
+    /*
+     * merge sort tester method
+     */
+    public static void main(String[] args) {
+        int[] test = new int[] { 9, 4, 3, 6, 10, 2, 1 };
+        mergeSort(test, test.length);
+        
+        for(int i : test) {
+            System.out.print(i + " ");
+        }
+
+    }
+    
+    /*
+     * divide and conquer - recursively divides the array into subarrays and then merges 
+     * the subarrays to form the final result
+     * 
+     * @param a - subarray
+     * @param n - length of subarray
+     */
+    public static void mergeSort(int[] a, int n) {
+        // base case
+        if (n < 2) {
+            return;
+        }
+        
+        // create two subarrays, left and right
+        int mid = n / 2;
+        int[] l = new int[mid];
+        int[] r = new int[n - mid];
+
+        // copy elements into left and right subarray
+        for (int i = 0; i < mid; i++) {
+            l[i] = a[i];
+        }
+        for (int i = mid; i < n; i++) {
+            r[i - mid] = a[i];
+        }
+        
+        // recursive call on both
+        mergeSort(l, mid);
+        mergeSort(r, n - mid);
+
+        // merge
+        merge(a, l, r, mid, n - mid);
+    }
+
+    /*
+     * merge 2 arrays into 1 using 2 pointers. 
+     * 
+     * @param a - subarray
+     * @param n - length of subarray
+     */
+    public static void merge(int[] a, int[] l, int[] r, int left, int right) {
+        // both pointers to left and right subarray start at index 0
+        int p1 = 0;
+        int p2 = 0;
+        int index = 0;
+            
+        while (p1 < left && p2 < right) {
+            // compare values at index pointer, increment pointer that had smaller value
+            if (l[p1] <= r[p2]) {
+                a[index] = l[p1];
+                p1++;
+            } else {
+                a[index] = r[p2];
+                p1++;
+            }
+            index++;
+        }
+        
+        // if there are remaining indices, copy remaining elements into merged array
+        while (p1 < left) {
+            a[index] = l[p1];
+            index++;
+            p1++;
+        }
+        while (p2 < right) {
+            a[index] = r[p2];
+            index++;
+            p2++;
+        }
+    }
+
+}
